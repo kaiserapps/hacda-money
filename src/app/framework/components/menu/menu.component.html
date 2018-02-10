@@ -1,0 +1,23 @@
+<h1 class="sr-only">HACDA Money</h1>
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <a class="navbar-brand" routerLink="/">HACDA Money</a>
+    <button class="navbar-toggler" type="button" aria-label="Toggle navigation" (click)="isNavbarCollapsed = !isNavbarCollapsed">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse">
+        <nav class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <a class="nav-item nav-link" routerLink="/form" routerLinkActive="active">Entry Form</a>
+            <a class="nav-item nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+        </nav>
+
+        <div ngbDropdown class="d-inline-block" *ngIf="!!authProvider.loginInfo">
+            <button class="btn btn-outline-info text-light" id="userInfoDropdown" ngbDropdownToggle>
+                <i [ngClass]="strategyIcon"></i>
+                {{authProvider.loginInfo.username}}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="userInfoDropdown">
+                <button class="dropdown-item" (click)="authProvider.logout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+</nav>

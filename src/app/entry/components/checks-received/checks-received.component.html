@@ -1,0 +1,51 @@
+<h6 class="card-subtitle mb-3 text-muted">
+    Add any checks received for memberships or admissions.
+</h6>
+<div *ngIf="checkForm">
+    <button type="button" class="btn btn-sm btn-success" (click)="addCheck()">Add Check</button>
+    <div *ngFor="let chkForm of checkForm.controls">
+        <form [formGroup]="chkForm">
+            <div class="row grid-row mt-2 mb-4 mx-1 pt-2 bg-light">
+                <div class="form-group col-12 col-sm-6 col-lg-2">
+                    <label>Check No.</label>
+                    <input type="number" min="1" class="form-control" formControlName="checkNumber" (change)="update()" required [ngClass]="{ 'is-valid': chkForm.get('checkNumber').dirty && chkForm.get('checkNumber').valid, 'is-invalid': chkForm.get('checkNumber').dirty && !chkForm.get('checkNumber').valid }"
+                    />
+                    <div class="invalid-feedback">Check No. is required.</div>
+                </div>
+                <div class="form-group col-12 col-sm-6 col-lg-3">
+                    <label>Check From</label>
+                    <input type="text" class="form-control" formControlName="payer" (change)="update()" required [ngClass]="{ 'is-valid': chkForm.get('payer').dirty && chkForm.get('payer').valid, 'is-invalid': chkForm.get('payer').dirty && !chkForm.get('payer').valid }"
+                    />
+                    <div class="invalid-feedback">Check From is required.</div>
+                </div>
+                <div class="form-group col-12 col-sm-6 col-lg-3">
+                    <label>Reason</label>
+                    <select class="form-control" formControlName="reason" (change)="update()" required [ngClass]="{ 'is-valid': chkForm.get('reason').dirty && chkForm.get('reason').valid, 'is-invalid': chkForm.get('reason').dirty && !chkForm.get('reason').valid }">
+                        <option *ngFor="let r of checkReasons" value="{{r.value}}">{{r.text}}</option>
+                    </select>
+                    <div class="invalid-feedback">Reason is required.</div>
+                </div>
+                <div class="form-group col-12 col-sm-6 col-lg-2">
+                    <label>Amount</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input type="number" min="0.01" step="0.01" class="form-control" formControlName="amount" (change)="update()" required [ngClass]="{ 'is-valid': chkForm.get('amount').dirty && chkForm.get('amount').valid, 'is-invalid': chkForm.get('amount').dirty && !chkForm.get('amount').valid }"
+                        />
+                        <div class="invalid-feedback">Amount is required.</div>
+                    </div>
+                </div>
+                <div class="form-group col-12 col-sm-6 col-lg-2">
+                    <label>Dated</label>
+                    <input type="date" class="form-control" formControlName="dated" (change)="update()" required [ngClass]="{ 'is-valid': chkForm.get('dated').dirty && chkForm.get('dated').valid, 'is-invalid': chkForm.get('dated').dirty && !chkForm.get('dated').valid }"
+                    />
+                    <div class="invalid-feedback">Dated is required.</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-right">
+        <a href="javascript:void(0)" class="btn btn-primary" [routerLink]="['/form', 'entry', 'balance']">Next <i class="fa fa-forward"></i></a>
+    </div>
+</div>

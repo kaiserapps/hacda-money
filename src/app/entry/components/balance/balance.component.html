@@ -1,0 +1,214 @@
+<h6 class="card-subtitle mb-3 text-muted">
+    Use this form to balance the cashbox and determine how much to put into the deposit envelope or how much needs to be added to restore it to $300.
+</h6>
+<div *ngIf="parent.moneyForm">
+    <form [formGroup]="balanceForm" *ngIf="balanceForm">
+        <div class="card-group">
+            <div class="mr-1">
+                <div class="card border-success">
+                    <div class="card-header text-light bg-success">
+                        <h4>Income</h4>
+                    </div>
+                    <div class="card-body">
+                        <app-balance-count (countChanged)="update()" [moneyForm]="moneyForm" [hideIfTechno]="true" displayName="Adult Members" countType="CountType.Member" price="8"></app-balance-count>
+                        <app-balance-count (countChanged)="update()" [moneyForm]="moneyForm" [hideIfTechno]="true" displayName="Adult Non-Members" countType="CountType.Nonmember" price="9"></app-balance-count>
+                        <app-balance-count (countChanged)="update()" [moneyForm]="moneyForm" [hideIfTechno]="true" displayName="Students" countType="CountType.Student" price="5"></app-balance-count>
+                        <app-balance-count (countChanged)="update()" [moneyForm]="moneyForm" [hideIfNotTechno]="true" displayName="Techno Dancers" countType="CountType.Techno" price="10"></app-balance-count>
+                        <app-balance-count (countChanged)="update()" [moneyForm]="moneyForm" displayName="Listeners" countType="CountType.Listener" price="5"></app-balance-count>
+                        <app-balance-count (countChanged)="update()" [moneyForm]="moneyForm" displayName="Memberships" countType="CountType.Membership" price="20"></app-balance-count>
+                        <div class="from-group nowrap">
+                            <label>
+                                <strong>Donations:</strong> $
+                            </label>
+                            <input type="number" min="0" step="1" class="form-control inline small" formControlName="donations" (change)="update()" />
+                        </div>
+                    </div>
+                    <div class="card-footer text-light bg-success">
+                        <div>
+                            <strong>Total Cash Received:</strong> ${{moneyForm.totalCash}}
+                        </div>
+                        <div>
+                            <strong>Total Checks Received:</strong> ${{moneyForm.totalChecks}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mr-1">
+                <div class="card border-danger">
+                    <div class="card-header text-light bg-danger">
+                        <h4>Payments</h4>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <strong>Paid to caller:</strong> <a [routerLink]="['/form', 'entry', 'performers']">${{moneyForm.callerPayment}} <i class="fa fa-pencil"></i></a> (<strong>C</strong>)
+                        </div>
+                        <div>
+                            <strong>Paid to sound technician:</strong> <a [routerLink]="['/form', 'entry', 'performers']">${{moneyForm.soundPayment}} <i class="fa fa-pencil"></i></a> (<strong>D</strong>)
+                            <br />
+                            <label>
+                                <input type="checkbox" formControlName="bandSound" (change)="update()" />
+                                Band member ran sound.
+                            </label>
+                        </div>
+                        <div>
+                            <strong>Paid to band:</strong> <a [routerLink]="['/form', 'entry', 'performers']">${{moneyForm.bandPayment}} <i class="fa fa-pencil"></i></a> (<strong>E</strong>)
+                        </div>
+                        <div class="help-text text-muted">(Have them sign a receipt - they get a copy.)</div>
+                    </div>
+                    <div class="card-footer text-light bg-danger">
+                        <strong>Total Paid Out:</strong> <span>${{moneyForm.performerPayment}}</span> (<strong>F</strong> - add C, D, and E)
+                    </div>
+                </div>
+            </div>
+            <div class="mr-1">
+                <div class="card border-primary">
+                    <div class="card-header text-light bg-primary">
+                        <h4>Final Balance</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Cash to Start:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Amount of Cash in Cash Box to Start (not including Deposit Envelopes)">
+                                <a [routerLink]="['/form', 'entry', 'header']">${{moneyForm.startingCash}} <i class="fa fa-pencil"></i></a>
+                            </div>
+                            <div class="col-4">
+                                (<strong>A</strong> - should be $300)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Cash at End (before paying performers):</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Amount of Cash in Cash Box at End (counted before paying performers)">
+                                <div class="input-group">
+                                    <div class="input-group-addon">$</div>
+                                    <input type="number" min="1" step="1" class="form-control" formControlName="endingCash" (change)="update()" required [ngClass]="{ 'is-valid': endingCash.dirty && endingCash.valid, 'is-invalid': endingCash.dirty && !endingCash.valid }" />
+                                    <div class="invalid-feedback">Cash at End is required.</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                (<strong>B</strong> - count cash in cashbox)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Total Paid Out:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Total paid to Caller, Band, and Sound Technician.">
+                                <a [routerLink]="['/form', 'entry', 'performers']">${{moneyForm.performerPayment}} <i class="fa fa-pencil"></i></a>
+                            </div>
+                            <div class="col-4">
+                                (<strong>F</strong> - add C, D, and E)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Cash at End (after paying performers):</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Amount of Cash in Cash Box at End (after paying performers)">
+                                <span>${{moneyForm.finalCash}}</span>
+                            </div>
+                            <div class="col-4">
+                                (<strong>G</strong> - subtract F from B)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Total Checks:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Amount of Checks in Cash Box at End. Place in deposit envelope.">
+                                <a [routerLink]="['/form', 'entry', 'checks-received']">${{moneyForm.totalChecks}} <i class="fa fa-pencil"></i></a>
+                            </div>
+                            <div class="col-4">
+                                (<strong>H</strong> - Checks "Amount" column sum)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Total:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Total Amount of Cash and Checks in Cash Box after paying performers">
+                                <span>${{moneyForm.totalCashAndChecks}}</span>
+                            </div>
+                            <div class="col-4">
+                                (<strong>I</strong> - add G and H)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Cash:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Amount placed in a labeled Deposit Envelope (if positive) for this dance (leave $300 in 1’s and 5’s in Cash Box)">
+                                <span *ngIf="moneyForm.cashBalance >= 0" class="text-success">${{moneyForm.cashBalance}}</span>
+                                <span *ngIf="moneyForm.cashBalance < 0" class="text-danger">$({{moneyForm.cashBalance * -1}})</span>
+                            </div>
+                            <div class="col-4">
+                                (<strong>J</strong> - G minus $300)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Total Income:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Income (total) from this dance">
+                                <span *ngIf="moneyForm.netIncome >= 0" class="text-success">${{moneyForm.netIncome}}</span>
+                                <span *ngIf="moneyForm.netIncome < 0" class="text-danger">$({{moneyForm.netIncome * -1}})</span>
+                            </div>
+                            <div class="col-4">
+                                (<strong>K</strong> - add J and H)
+                            </div>
+                        </div>
+                        <div class="row mb-2 help-text text-muted small">(Keep monies from different dances in separate labeled deposit envelopes until deposited by the Treasurer.)</div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Left in the Cash Box:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Total amount of cash left in the Cash Box (should be $300)">
+                                <span>${{moneyForm.leftInCashBox}}</span>
+                            </div>
+                            <div class="col-4">
+                                (<strong>L</strong> - I minus K, should be $300)
+                            </div>
+                        </div>
+                        <div class="row mb-2 help-text text-muted small">(Submit this form and give the deposit envelope to the Treasurer or leave in cash box under the tray if Treasurer not available.)</div>
+                        <div class="row" *ngIf="moneyForm.cashBalance < 0">
+                            <div class="col-4">
+                                <strong>Amount added to Cash Box:</strong>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group" placement="left" ngbTooltip="Amount Added to Cash Box to bring total to $300">
+                                    <div class="input-group-addon">$</div>
+                                    <input type="number" min="1" step="1" class="form-control" formControlName="amountAdded" (change)="update()" required [ngClass]="{ 'is-valid': amountAdded.dirty && amountAdded.valid, 'is-invalid': amountAdded.dirty && !amountAdded.valid }" />
+                                    <div class="invalid-feedback">Amount Added is required.</div>
+                                </div>
+                                <div placement="left" ngbTooltip="The name of the person adding the money to bring the total to $300">
+                                    <input type="text" class="form-control" formControlName="cashAddedBy" (change)="update()" placeholder="Reimbursed Name" required [ngClass]="{ 'is-valid': cashAddedBy.dirty && cashAddedBy.valid, 'is-invalid': cashAddedBy.dirty && !cashAddedBy.valid }"
+                                    />
+                                    <div class="invalid-feedback">Reimbursed Name is required.</div>
+                                </div>
+                                <div class="row mb-2 help-text text-muted small">({{cashAddedBy.value ? cashAddedBy.value : '{Reimbursed Named}'}} will be reimbursed ${{amountAdded.value}} from the HACDA checking account.)</div>
+                            </div>
+                            <div class="col-4">
+                                (<strong>M</strong> - should be = J)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Cash Box Held By:</strong>
+                            </div>
+                            <div class="col-4" placement="left" ngbTooltip="Cash Box held by this person at end of the evening until the next dance.">
+                                <input type="text" class="form-control" formControlName="cashBoxHeldBy" (change)="update()" required [ngClass]="{ 'is-valid': cashBoxHeldBy.dirty && cashBoxHeldBy.valid, 'is-invalid': cashBoxHeldBy.dirty && !cashBoxHeldBy.valid }" />
+                                <div class="invalid-feedback">Cash Box Held By is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-light bg-primary">
+                        <a href="javascript:void(0)" class="btn btn-light" [routerLink]="['/form', 'entry', 'submission']">Validate And Submit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

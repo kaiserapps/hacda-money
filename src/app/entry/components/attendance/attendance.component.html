@@ -1,0 +1,44 @@
+<h6 class="card-subtitle mb-3 text-muted">
+    Use this section to count attendance during the first half of the dance.
+</h6>
+<div *ngIf="parent.moneyForm">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4" *ngIf="!parent.moneyForm.isTechno">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Member" displayName="Member (adult)" price="$8.00"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" *ngIf="!parent.moneyForm.isTechno">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Nonmember" displayName="Non-Member (adult)" price="$9.00"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" *ngIf="!parent.moneyForm.isTechno">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Student" displayName="Student (13-19)" price="$5.00"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" *ngIf="parent.moneyForm.isTechno">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Techno" displayName="Techno Attendee" price="$10.00"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Child" displayName="12 and Under" price="Free"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Listener" displayName="Listener" price="$5.00"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" *ngIf="!parent.moneyForm.isTechno">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.CouponIn" displayName="Dance Coupon Redeemed" price="Free" abbreviation="Redeemed"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.CouponOut" displayName="Dance Coupon Given Out" price="N/A" abbreviation="Given Out"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <app-attendance-counter [moneyForm]="parent.moneyForm" (countChange)="saveMoneyForm()" countType="CountType.Membership" displayName="Memberships (Enter names below)" abbreviation="Membership" price="$20.00"></app-attendance-counter>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" *ngIf="!!parent.moneyForm.counts.membership">
+            <textarea class="form-control" [(ngModel)]="parent.moneyForm.membershipNames" (change)="saveMoneyForm()" (keyup)="memberChanges=true" [rows]="getMemberNameRows()" aria-describedby="membershipHelp"></textarea>
+            <small id="membershipHelp" class="form-text text-muted">
+                Enter {{parent.moneyForm.counts.membership}} member names (separate by commas or line breaks).
+            </small>
+            <button type="button" class="btn btn-sm btn-success" *ngIf="memberChanges" (click)="memberChanges=false"><i class="fa fa-save"></i> Save</button>
+        </div>
+        <div class="col-12 text-right">
+            <a href="javascript:void(0)" class="btn btn-primary" [routerLink]="['/form', 'entry', 'performers']">Next <i class="fa fa-forward"></i></a>
+        </div>
+    </div>
+</div>

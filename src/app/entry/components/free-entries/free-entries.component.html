@@ -1,0 +1,39 @@
+<h6 class="card-subtitle mb-3 text-muted">
+    Use this section to indicate who, other than the money manager, received a free entry to the dance.
+</h6>
+<div *ngIf="parent.moneyForm">
+    <form *ngIf="freeEntryForm" [formGroup]="freeEntryForm">
+        <div class="row">
+            <div class="form-group col-12 col-sm-4">
+                <label>Dance Manager Free Entry</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <input type="checkbox" formControlName="danceManager" (change)="update()" />
+                    </div>
+                    <input type="text" *ngIf="freeEntryForm.get('danceManager').value" class="form-control" formControlName="danceManagerName" (change)="update()" />
+                </div>
+            </div>
+            <div class="form-group col-12 col-sm-4">
+                <label>Sound Manager Free Entry</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <input type="checkbox" formControlName="soundManager" (change)="update()" />
+                    </div>
+                    <input type="text" *ngIf="freeEntryForm.get('soundManager').value" class="form-control" formControlName="soundManagerName" (change)="update()" />
+                </div>
+            </div>
+            <div class="form-group col-12 col-sm-4">
+                <label>Hospitality Host Free Entry</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <input type="checkbox" formControlName="hospitalityHost" (change)="update()" />
+                    </div>
+                    <input type="text" *ngIf="freeEntryForm.get('hospitalityHost').value" class="form-control" formControlName="hospitalityHostName" (change)="update()" />
+                </div>
+            </div>
+            <div class="col-12 text-right">
+                <a href="javascript:void(0)" class="btn btn-primary" [routerLink]="['/form', 'entry', 'checks-received']">Next <i class="fa fa-forward"></i></a>
+            </div>
+        </div>
+    </form>
+</div>

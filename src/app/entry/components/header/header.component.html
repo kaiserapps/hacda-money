@@ -1,0 +1,34 @@
+<h6 class="card-subtitle mb-3 text-muted">
+    Enter the amount of money in the cashbox before you start counting admissions.
+</h6>
+<div *ngIf="parent.moneyForm">
+    <form *ngIf="headerForm" [formGroup]="headerForm">
+        <div class="row">
+            <div class="form-group col-12 col-sm-6 col-lg-4">
+                <label>Starting Cash</label>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <input type="number" min="0" class="form-control" formControlName="startingCash" placeholder="Starting Cash" (change)="update()" required [ngClass]="{ 'is-valid': startingCash.dirty && startingCash.valid, 'is-invalid': startingCash.dirty && !startingCash.valid }"
+                    />
+                    <div class="invalid-feedback">Starting Cash is required.</div>
+                </div>
+                <div class="text-warning" *ngIf="startingCash.value != 300">Starting cash that is not $300 will require signoff before Submission.</div>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4">
+                <label>Location</label>
+                <input type="text" class="form-control" formControlName="location" placeholder="Location" (change)="update()" required [ngClass]="{ 'is-valid': location.dirty && location.valid, 'is-invalid': location.dirty && !location.valid }" />
+                <div class="invalid-feedback">Location is required.</div>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4">
+                <label>Techno Dance</label><br />
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="toggleTechno()" [ngClass]="{ 'active': parent.moneyForm.isTechno }" ngbTooltip="Click here to toggle whether the dance is a Techno. If the button is filled in, it will be a techno and the form will be adjusted accordingly."
+                    placement="right">
+                    Techno Dance
+                </button>
+            </div>
+            <div class="col-12 text-right">
+                <a href="javascript:void(0)" class="btn btn-primary" [routerLink]="['/form', 'entry', 'attendance']">Next <i class="fa fa-forward"></i></a>
+            </div>
+        </div>
+    </form>
+</div>

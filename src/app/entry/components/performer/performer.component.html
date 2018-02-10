@@ -1,0 +1,29 @@
+<form *ngIf="performerForm" [formGroup]="performerForm">
+    <div class="card border-primary">
+        <div class="card-header bg-primary">
+            <h4 class="card-title text-center">
+                {{displayName}}
+            </h4>
+            <h6 class="card-subtitle mb-2 text-dark">
+                Standard Payment:
+                <div class="badge badge-success">${{payment}}</div>
+            </h6>
+        </div>
+        <div class="card-body bg-light">
+            <div class="form-group">
+                <label>Performer Name</label>
+                <input #performerNameInput type="text" class="form-control" formControlName="performerName" placeholder="Performer Name" (change)="update()" required [ngClass]="{ 'is-valid': performerName.dirty && performerName.valid, 'is-invalid': performerName.dirty && !performerName.valid }"
+                />
+            </div>
+            <div class="form-group">
+                <label>Amount Paid</label>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <input #performerPaymentInput type="number" min="0" class="form-control" formControlName="finalPayment" placeholder="Amount Paid" (change)="update()" required [ngClass]="{ 'is-valid': finalPayment.dirty && finalPayment.valid, 'is-invalid': finalPayment.dirty && !finalPayment.valid }"
+                    />
+                    <div class="invalid-feedback">Amount Paid is required.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

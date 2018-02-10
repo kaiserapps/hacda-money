@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h4 class="modal-title">Signature Pad</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="help-text text-muted">Use your finger or mouse to draw a signature.</div>
+    <signature-pad [options]="_signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+    <div class="text-danger" *ngIf="invalidSig">No signature detected!</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="sign()">Sign</button>
+    <button type="button" class="btn btn-danger" (click)="clear()">Clear</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+</div>

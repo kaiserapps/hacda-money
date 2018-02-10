@@ -1,0 +1,29 @@
+<div class="container-fluid row mt-3">
+    <div class="col-12">
+        <div class="alert alert-info" *ngIf="moneyForm">
+            <strong>Status:</strong> {{moneyForm.statusDesc}}
+        </div>
+        <div class="alert alert-secondary" *ngIf="moneyForm">
+            Money Manager Form for <span class="badge badge-secondary">{{moneyForm.dateOfDance.toDateString()}}</span> by <span class="badge badge-secondary">{{moneyForm.moneyManager}}</span>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <nav class="nav nav-pills nav" *ngIf="id">
+                    <a class="nav-item nav-link" routerLink="header" routerLinkActive="active">Start</a>
+                    <a class="nav-item nav-link" routerLink="attendance" routerLinkActive="active">Attendance</a>
+                    <a class="nav-item nav-link" routerLink="performers" routerLinkActive="active">Performers</a>
+                    <a class="nav-item nav-link" routerLink="free-entries" routerLinkActive="active">Free Entries</a>
+                    <a class="nav-item nav-link" routerLink="checks-received" routerLinkActive="active">Checks Received</a>
+                    <a class="nav-item nav-link" routerLink="balance" routerLinkActive="active">Balance Cashbox</a>
+                    <a class="nav-item nav-link" routerLink="submission" routerLinkActive="active">Submit Form</a>
+                </nav>
+            </div>
+            <div class="card-body">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

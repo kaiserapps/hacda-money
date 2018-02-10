@@ -1,0 +1,310 @@
+<div *ngIf="moneyForm">
+    <h2 class="text-center">Harrisburg Area Contra Dance Association</h2>
+    <h4 class="text-center">Money Manager Tracking Form Rev. 09/16</h4>
+    <hr />
+    <div class="row mt-3">
+        <div class="col-12 col-sm-6 col-lg-4" [ngClass]="{ 'text-danger': !moneyForm.dateOfDance }">
+            <strong>Date:</strong> {{moneyForm.dateOfDance.toDateString()}}
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4" [ngClass]="{ 'text-danger': !moneyForm.location }">
+            <strong>Location:</strong> <a [routerLink]="['/form', 'entry', 'header']">{{moneyForm.location}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="location-name"></app-submission-error>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4" [ngClass]="{ 'text-danger': !moneyForm.performers[PerformerType.Caller] }">
+            <strong>Caller:</strong> <a [routerLink]="['/form', 'entry', 'performers']">{{moneyForm.performers[PerformerType.Caller]}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="caller-name"></app-submission-error>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4" [ngClass]="{ 'text-danger': !moneyForm.bandName }">
+            <strong>Band:</strong> <a [routerLink]="['/form', 'entry', 'performers']">{{moneyForm.bandName}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="band-name"></app-submission-error>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4" [ngClass]="{ 'text-danger': !moneyForm.bandMemberCount || moneyForm.bandMemberCount < 1 || moneyForm.bandMemberCount > 4 }">
+            <strong>Number In Band:</strong> <a [routerLink]="['/form', 'entry', 'performers']">{{moneyForm.bandMemberCount}} <i class="fa fa-pencil"></i></a>
+        </div>
+        <div class="col-12 col-sm-6">
+            <strong>Band Member Names:</strong> <a [routerLink]="['/form', 'entry', 'performers']">{{moneyForm.bandMemberNames}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="band-miscount"></app-submission-error>
+        </div>
+    </div>
+    <hr />
+    <div class="row mt-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!moneyForm.isTechno">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Adult Members" countType="CountType.Member" price="8"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!moneyForm.isTechno">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Adult Non-Members" countType="CountType.Nonmember" price="9"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="!moneyForm.isTechno">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Students" countType="CountType.Student" price="5"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="moneyForm.isTechno">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Techno Dancers" countType="CountType.Techno" price="10"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="12 and Under" countType="CountType.Child" price="0"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Listeners" countType="CountType.Listener" price="5"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Coupons Redeemed" countType="CountType.CouponIn" price="0"></app-balance-count>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <strong>Coupons Given Out</strong>: <a [routerLink]="['/form', 'entry', 'attendance']">{{moneyForm.counts['couponOut']}} <i class="fa fa-pencil"></i></a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <app-balance-count [moneyForm]="moneyForm" [readOnly]="true" [useLink]="true" displayName="Memberships" countType="CountType.Membership" price="20"></app-balance-count>
+            <span *ngIf="moneyForm.counts['membership']">
+                <a [routerLink]="['/form', 'entry', 'attendance']">{{moneyForm.membershipNameList}} <i class="fa fa-pencil"></i></a>
+            </span>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="membership-miscount"></app-submission-error>
+        </div>
+    </div>
+    <hr />
+    <div class="row mt-3">
+        <div class="col-12 col-lg-3">
+            <div class="row">
+                <div class="col-12">
+                    <strong>Donations:</strong> <a [routerLink]="['/form', 'entry', 'balance']">${{moneyForm.donations}} <i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="col-12">
+                    <strong>Total Cash Received:</strong> <a [routerLink]="['/form', 'entry', 'balance']">${{moneyForm.totalCash}} <i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="col-12">
+                    <strong>Total Checks Received:</strong> <a [routerLink]="['/form', 'entry', 'balance']">${{moneyForm.totalChecks}} <i class="fa fa-pencil"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <strong>Dance Manager Free Entry?</strong>
+                    <a [routerLink]="['/form', 'entry', 'free-entries']">{{moneyForm.danceManager ? 'Yes' : 'No'}} <i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4" *ngIf="moneyForm.danceManager">
+                    <strong>Dance Manager:</strong>
+                    <a [routerLink]="['/form', 'entry', 'free-entries']">{{moneyForm.danceManagerName}} <i class="fa fa-pencil"></i></a>
+                    <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="dance-mgr-name"></app-submission-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <strong>Sound Technician Free Entry?</strong>
+                    <a [routerLink]="['/form', 'entry', 'free-entries']">{{moneyForm.soundManager ? 'Yes' : 'No'}} <i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4" *ngIf="moneyForm.soundManager">
+                    <strong>Sound Technician:</strong>
+                    <a [routerLink]="['/form', 'entry', 'free-entries']">{{moneyForm.soundManagerName}} <i class="fa fa-pencil"></i></a>
+                    <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="sound-mgr-name"></app-submission-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <strong>Hospitality Host Free Entry?</strong>
+                    <a [routerLink]="['/form', 'entry', 'free-entries']">{{moneyForm.hospitalityHost ? 'Yes' : 'No'}} <i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4" *ngIf="moneyForm.hospitalityHost">
+                    <strong>Hospitality Host:</strong>
+                    <a [routerLink]="['/form', 'entry', 'free-entries']">{{moneyForm.hospitalityHostName}} <i class="fa fa-pencil"></i></a>
+                    <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="host-name"></app-submission-error>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row mt-3">
+        <div class="card col-12">
+            <h5><a [routerLink]="['/form', 'entry', 'checks-received']">Checks Received <i class="fa fa-pencil"></i></a> <small>(add for line H)</small></h5>
+            <div class="row grid-row mt-2 mb-4 mx-1 pt-2 bg-light" *ngFor="let chk of moneyForm.checks">
+                <div class="form-group col-12 col-sm-2">
+                    <label><strong>Check No.</strong></label><br /> {{chk.checkNumber}}
+                </div>
+                <div class="form-group col-12 col-sm-3">
+                    <label><strong>Check From</strong></label><br /> {{chk.payer}}
+                </div>
+                <div class="form-group col-12 col-sm-3">
+                    <label><strong>Reason</strong></label><br /> {{CheckReason[chk.reason]}}
+                </div>
+                <div class="form-group col-12 col-sm-2">
+                    <label><strong>Amount</strong></label><br /> ${{chk.amount}}
+                </div>
+                <div class="form-group col-12 col-sm-2">
+                    <label><strong>Dated</strong></label><br /> {{chk.dated.toDateString()}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row mt-3">
+        <div class="col-4">
+            <strong>Cash to Start:</strong>
+        </div>
+        <div class="col-4">
+            <a [routerLink]="['/form', 'entry', 'header']">${{moneyForm.startingCash}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="cash-not-300"></app-submission-error>
+        </div>
+        <div class="col-4">
+            (<strong>A</strong> - should be $300)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Gross Income (before paying performers):</strong>
+        </div>
+        <div class="col-4">
+            <a [routerLink]="['/form', 'entry', 'balance']">${{moneyForm.endingCash}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="gross-mismatch"></app-submission-error>
+            <a *ngIf="balanceRequired" [routerLink]="['/form', 'entry', 'attendance-balance']">Balance Attendance</a>
+        </div>
+        <div class="col-4">
+            (<strong>B</strong> - count cash in cashbox)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Total Paid Out:</strong>
+        </div>
+        <div class="col-4">
+            <a [routerLink]="['/form', 'entry', 'performers']">${{moneyForm.performerPayment}} <i class="fa fa-pencil"></i></a>
+        </div>
+        <div class="col-4">
+            (<strong>F</strong> - add C, D, and E)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Net Income (after paying performers):</strong>
+        </div>
+        <div class="col-4">
+            <span>${{moneyForm.finalCash}}</span>
+        </div>
+        <div class="col-4">
+            (<strong>G</strong> - subtract F from B)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Total Checks:</strong>
+        </div>
+        <div class="col-4">
+            <a [routerLink]="['/form', 'entry', 'checks-received']">${{moneyForm.totalChecks}} <i class="fa fa-pencil"></i></a>
+        </div>
+        <div class="col-4">
+            (<strong>H</strong> - Checks "Amount" column sum)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Total:</strong>
+        </div>
+        <div class="col-4">
+            <span>${{moneyForm.totalCashAndChecks}}</span>
+        </div>
+        <div class="col-4">
+            (<strong>I</strong> - add G and H)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Cash:</strong>
+        </div>
+        <div class="col-4">
+            <span *ngIf="moneyForm.cashBalance >= 0" class="text-success">${{moneyForm.cashBalance}}</span>
+            <span *ngIf="moneyForm.cashBalance < 0" class="text-danger">$({{moneyForm.cashBalance * -1}})</span>
+        </div>
+        <div class="col-4">
+            (<strong>J</strong> - G minus $300)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Total Income:</strong>
+        </div>
+        <div class="col-4">
+            <span *ngIf="moneyForm.netIncome >= 0" class="text-success">${{moneyForm.netIncome}}</span>
+            <span *ngIf="moneyForm.netIncome < 0" class="text-danger">$({{moneyForm.netIncome * -1}})</span>
+        </div>
+        <div class="col-4">
+            (<strong>K</strong> - add J and H)
+        </div>
+    </div>
+    <div class="row mb-2 help-text text-muted small">(Keep monies from different dances in separate labeled deposit envelopes until deposited by the Treasurer.)</div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Left in the Cash Box:</strong>
+        </div>
+        <div class="col-4">
+            <span>${{moneyForm.leftInCashBox}}</span>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="cash-left-not-300"></app-submission-error>
+        </div>
+        <div class="col-4">
+            (<strong>L</strong> - I minus K, should be $300)
+        </div>
+    </div>
+    <div class="row mb-2 help-text text-muted small">(Submit this form and give the deposit envelope to the Treasurer or leave in cash box under the tray if Treasurer not available.)</div>
+    <div class="row" *ngIf="moneyForm.cashBalance < 0">
+        <div class="col-4">
+            <strong>Amount added to Cash Box:</strong>
+        </div>
+        <div class="col-4">
+            <a [routerLink]="['/form', 'entry', 'balance']">${{moneyForm.amountAdded}} <i class="fa fa-pencil"></i></a> by
+            <a [routerLink]="['/form', 'entry', 'balance']">{{moneyForm.cashAddedBy}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="added-by-missing"></app-submission-error>
+            <div class="row mb-2 help-text text-muted small">({{moneyForm.cashAddedBy}} will be reimbursed ${{moneyForm.amountAdded}} from the HACDA checking account.)</div>
+        </div>
+        <div class="col-4">
+            (<strong>M</strong> - should be = J)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Cash Box Held By:</strong>
+        </div>
+        <div class="col-4">
+            <a [routerLink]="['/form', 'entry', 'balance']">{{moneyForm.cashBoxHeldBy}} <i class="fa fa-pencil"></i></a>
+            <app-submission-error [errors]="errors" [errorList]="errorList" [errorColors]="errorColors" errorId="held-by-missing"></app-submission-error>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Money Manager Name(s):</strong>
+        </div>
+        <div class="col-4">
+            {{moneyForm.moneyManager}}
+        </div>
+    </div>
+    <div class="row mt-3 mb-1">
+        <div class="col-12 col-sm-6">
+            <button type="button" class="btn btn-primary" (click)="validateForm()" [disabled]="moneyForm.validated">Validate Form</button>
+        </div>
+        <div *ngFor="let e of errorList; let idx = index" class="col-12" [ngClass]="e[1]">
+            <i class="fa fa-exclamation-circle"></i> {{idx+1}}. {{e[0]}}
+        </div>
+    </div>
+    <hr />
+    <div *ngIf="moneyForm.validated">
+        <blockquote class="blockquote">
+            <p class="mb-0">
+                I hereby authorize that all figures and information on this page is accurate to the best of my knowledge, and that the cash left in the HACDA Cash Box reflects what is entered here. I also acknowledge that the trusted individual who is physically receiving
+                the HACDA Cash Box is noted above under "Cash Box Held By".
+            </p>
+        </blockquote>
+        <div class="form-group col-12" *ngIf="!!moneyForm.signature">
+            <div>
+                <a href="javascript:void(0)" (click)="unsign()" aria-label="Resign">
+                    <img src="{{moneyForm.signature}}" alt="Signature by {{moneyForm.signedBy}}" title="Signature by {{moneyForm.signedBy}}" />
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="submitForm()">Submit Form</button>
+        </div>
+        <div class="form-group col-12 col-sm-6 col-lg-4" *ngIf="!moneyForm.signature">
+            <label>Enter your name and press "Sign"</label>
+            <input type="text" class="form-control" [(ngModel)]="moneyForm.signedBy" placeholder="Signed By Name" required [ngClass]="{ 'is-invalid': signAttempted && !moneyForm.signedBy }" />
+            <button type="button" class="btn btn-success" (click)="signAttempted=true; showSignaturePad();">Sign</button>
+            <div class="invalid-feedback">Signed By Name is required.</div>
+        </div>
+        <hr />
+    </div>
+</div>
+<app-signature-modal (signatureChange)="sign($event)"></app-signature-modal>

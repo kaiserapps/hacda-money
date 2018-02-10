@@ -1,0 +1,8 @@
+<div class="form-group nowrap" *ngIf="(!hideIfTechno && moneyForm.isTechno) || (!hideIfNotTechno && !moneyForm.isTechno)">
+    <label>
+        <strong>{{displayName}}:</strong>
+    </label>
+    <input type="number" *ngIf="!readOnly" class="form-control inline small" [(ngModel)]="moneyForm.counts[countType]" (change)="countChanged.emit()" />
+    <span *ngIf="!!readOnly && !useLink">{{moneyForm.counts[countType]}}</span>
+    <span *ngIf="!!readOnly && !!useLink"><a href="javascript:void()" [routerLink]="['/form', 'entry', 'attendance']">{{moneyForm.counts[countType]}} <i class="fa fa-pencil"></i></a></span> x ${{price}} = ${{moneyForm.counts[countType] * price}}
+</div>

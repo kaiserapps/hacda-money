@@ -1,0 +1,27 @@
+<div>
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="!!editMode" (click)="incrementCount()" ngbTooltip="Click here to increment the '{{displayName}}' count by 1." placement="top" container="body">
+        {{displayName}}<br />
+        <div class="badge badge-success" *ngIf="price">{{price}}</div>
+    </button>
+    <div class="alert alert-primary">
+        <div class="nowrap" *ngIf="!editMode">
+            <strong>{{abbreviation}} Count:</strong>
+            <div class="btn btn-sm btn-secondary">
+                <strong>{{moneyForm.counts[countType] ? moneyForm.counts[countType] : 0}}</strong>
+            </div>
+            <button type="button" class="btn btn-sm btn-info" (click)="editCount()" ngbTooltip="Edit the count" placement="right" container="body">
+                <i class="fa fa-pencil-square-o"></i>
+                <span class="sr-only">Edit {{displayName}} Count</span>
+            </button>
+        </div>
+        <div class="input-group" *ngIf="editMode">
+            <input #editedNumber type="number" min="0" class="form-control inline" [value]="moneyForm.counts[countType]" (keyUp.enter)="changeCount()" />
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-success" (click)="changeCount()" ngbTooltip="Save the count" placement="right" container="body">
+                    <i class="fa fa-check-square-o"></i>
+                    <span class="sr-only">Save {{displayName}} Count</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

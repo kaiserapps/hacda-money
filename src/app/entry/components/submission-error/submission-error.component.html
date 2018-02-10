@@ -1,0 +1,3 @@
+<span *ngIf="errors[errorId]" [ngClass]="errorColors[errorId]" ngbTooltip="{{errorList[errors[errorId]-1][0]}}">
+    <i class="fa fa-exclamation-circle"></i> {{errors[errorId]}}
+</span>

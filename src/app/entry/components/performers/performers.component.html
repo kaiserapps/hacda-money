@@ -1,0 +1,50 @@
+<h6 class="card-subtitle mb-3 text-muted">
+    Enter performer names, and if necessary, adjust the payment amounts.
+</h6>
+<div *ngIf="parent.moneyForm">
+    <div class="row">
+        <div class="form-group col-12 col-md-6 col-lg-4 col-xl-3">
+            <label>Band Name</label>
+            <input type="text" class="form-control" [(ngModel)]="parent.moneyForm.bandName" (change)="saveMoneyForm()" />
+        </div>
+        <div class="form-group col-12 col-md-6 col-lg-4 col-xl-3" *ngIf="!parent.moneyForm.isTechno">
+            <label>Number of Band Members</label>
+            <input type="number" min="1" max="4" class="form-control" [(ngModel)]="parent.moneyForm.bandMemberCount" (change)="updateBandCount()" />
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width]="bandMemberProgress()" [attr.aria-valuenow]="parent.moneyForm.bandMemberCount" aria-valuemin="0" aria-valuemax="4"></div>
+            </div>
+        </div>
+        <div class="form-group col-12 col-md-6 col-lg-4">
+            <label>Reset All Amounts Paid to Standard Payments</label>
+            <button type="button" class="btn btn-warning" (click)="resetAllPayments()">Reset</button>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="mr-1">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.Caller" displayName="Caller" payment="75"></app-performer>
+        </div>
+        <div class="mr-1" *ngIf="!parent.moneyForm.isTechno">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.BandMember1" displayName="Band Member 1" [payment]="bandMemberPayment"></app-performer>
+        </div>
+        <div class="mr-1" *ngIf="!parent.moneyForm.isTechno && parent.moneyForm.bandMemberCount >= 2">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.BandMember2" displayName="Band Member 2" [payment]="bandMemberPayment"></app-performer>
+        </div>
+        <div class="mr-1" *ngIf="!parent.moneyForm.isTechno && parent.moneyForm.bandMemberCount >= 3">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.BandMember3" displayName="Band Member 3" [payment]="bandMemberPayment"></app-performer>
+        </div>
+        <div class="mr-1" *ngIf="!parent.moneyForm.isTechno && parent.moneyForm.bandMemberCount >= 4">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.BandMember4" displayName="Band Member 4" [payment]="bandMemberPayment"></app-performer>
+        </div>
+        <div class="mr-1" *ngIf="parent.moneyForm.isTechno">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.DJ" displayName="DJ" payment="225"></app-performer>
+        </div>
+        <div class="mr-1">
+            <app-performer [moneyForm]="parent.moneyForm" (performerChange)="saveMoneyForm()" [type]="PerformerType.Sound" displayName="Sound Technician" payment="25"></app-performer>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <a href="javascript:void(0)" class="btn btn-primary" [routerLink]="['/form', 'entry', 'free-entries']">Next <i class="fa fa-forward"></i></a>
+        </div>
+    </div>
+</div>

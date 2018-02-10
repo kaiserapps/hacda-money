@@ -1,0 +1,34 @@
+<form *ngIf="searchForm" [formGroup]="searchForm" (ngSubmit)="search()">
+    <div class="container-fluid row mt-3">
+        <div class="col-12 col-md-1 col-lg-2"></div>
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Find/Create Form</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="moneyManager">Money Manager's Name</label>
+                                <input type="text" class="form-control" formControlName="moneyManager" id="moneyManager" placeholder="Money Manager's Name" required readonly="readonly" [ngClass]="{ 'is-valid': moneyManager.dirty && moneyManager.valid, 'is-invalid': moneyManager.dirty && !moneyManager.valid }"
+                                />
+                                <div class="invalid-feedback">Money Manager's Name is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="dateOfDance">Date of Dance</label>
+                                <input type="date" class="form-control" formControlName="dateOfDance" id="dateOfDance" placeholder="Date of Dance" required [ngClass]="{ 'is-valid': dateOfDance.dirty && dateOfDance.valid, 'is-invalid': dateOfDance.dirty && !dateOfDance.valid }" />
+                                <div class="invalid-feedback">Date of Dance is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-primary" value="Find" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
